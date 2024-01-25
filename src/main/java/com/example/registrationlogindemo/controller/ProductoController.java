@@ -54,4 +54,11 @@ public class ProductoController {
         productoService.save(producto);
         return "redirect:/productos";
     }
+
+    @GetMapping("/detalle/{id}")
+    public String detalleProducto(@PathVariable("id") long id, Model model){
+        Producto producto=productoService.findById(id);
+        model.addAttribute("producto", producto);
+        return "detalle";
+    }
 }
