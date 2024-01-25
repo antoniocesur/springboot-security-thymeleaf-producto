@@ -7,7 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Optional;
 
 @Controller
 public class ProductoController {
@@ -16,6 +19,7 @@ public class ProductoController {
 
     @GetMapping("/")
     public String principal(Model model){
+        model.addAttribute("listaProductos", productoService.findAll());
         return "index";
     }
 
@@ -36,5 +40,18 @@ public class ProductoController {
     public String crearProductos(@ModelAttribute Producto producto){
         productoService.save(producto);
         return "redirect:/productos/altas";
+    }
+
+    @GetMapping("/productos/editar/{id}")
+    public String modificarProductos(@PathVariable("id") long id, Model model){
+        Producto producto = productoService.findById(id);
+        model.addAttribute("producto", producto);
+        return "formulario";
+    }
+
+    @PostMapping("/productos/modificar")
+    public String modificarProductos(@ModelAttribute Producto producto){
+        productoService.save(producto);
+        return "redirect:/productos";
     }
 }
