@@ -12,9 +12,11 @@
     <form
             action=""
             th:action="${producto.id != 0} ? @{/productos/modificar} : @{/productos/crear}"
-            method="post" th:object="${producto}"
+            method="post"
+            th:object="${producto}"
             enctype="multipart/form-data"
     >
+        <input type="hidden" id="id" th:field="*{id}">
         <div class="form-group">
             <label for="nombre">Nombre:</label>
             <input type="text" class="form-control" id="nombre" th:field="*{nombre}">

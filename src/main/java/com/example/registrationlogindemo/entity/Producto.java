@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    private long id;
     @Column(nullable = false, unique = true)
     private String nombre;
     @Column(columnDefinition = "TEXT")

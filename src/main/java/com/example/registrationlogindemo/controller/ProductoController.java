@@ -86,7 +86,7 @@ public class ProductoController {
     }
 
     @PostMapping("/productos/modificar")
-    public String modificarProductos(@ModelAttribute Producto producto, @RequestParam("file") MultipartFile file){
+    public String modificarProductos(@ModelAttribute("producto") Producto producto, @RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             String imagen = storageService.store(file, String.valueOf(producto.getId()));
             System.out.println("La imagen a guardar es : " + imagen);
