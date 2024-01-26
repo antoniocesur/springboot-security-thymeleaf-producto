@@ -11,23 +11,40 @@
           crossorigin="anonymous">
 </head>
 <body>
-    <h1>Tienda online</h1>
-    <a href="/carrito" class="btn btn-primary">Ver carrito</a>
-    <div class="row">
-        <div class="col" th:each="producto:${listaProductos}">
+    <div class="container">
+        <h1>Tienda online</h1>
+        <div class="row">
+            <div class="col">
+                <a href="/carrito" class="btn btn-primary" style="margin: 20px;">Ver carrito</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-3" th:each="producto:${listaProductos}">
 
-            <div class="card" style="width: 18rem;">
-                <img th:src="${producto.imagen}" class="card-img-top" th:alt="${producto.nombre}">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${producto.nombre}"></h5>
-                    <p class="card-text" th:text="${producto.descripcion}"></p>
-                    <p th:text="${producto.precio}"></p>
-                    <a th:href="'/detalle/' + ${producto.id}" class="btn btn-primary">Ver artículo</a>
+                <div class="card border-0 rounded-0 shadow" style="width: 18rem;">
+                    <img th:src="${producto.imagen}" class="card-img-top rounded-0" th:alt="${producto.nombre}" style="width: 100%; height: 7vw; object-fit: cover;">
+                    <div class="card-body mt-3 mb-3">
+                        <div class="row">
+                            <div class="col-10">
+                                <h4 class="card-title" th:text="${producto.nombre}">Product title</h4>
+
+                            </div>
+                            <div class="col-2">
+                                <i class="bi bi-bookmark-plus fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center text-center g-0">
+                        <div class="col-4">
+                            <h5 th:text="${producto.precio}">$129</h5>
+                        </div>
+                        <div class="col-8">
+                            <a th:href="'/detalle/' + ${producto.id}" class="btn btn-dark w-100 p-3 rounded-0 text-warning">Ver detalle</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
-
 </body>
 </html>
