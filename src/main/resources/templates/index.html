@@ -12,12 +12,12 @@
 </head>
 <body>
     <h1>Tienda online</h1>
+    <a href="/carrito" class="btn btn-primary">Ver carrito</a>
     <div class="row">
         <div class="col" th:each="producto:${listaProductos}">
-            <div class="card">
-                <div class="card-header">
-                    En oferta
-                </div>
+
+            <div class="card" style="width: 18rem;">
+                <img th:src="${producto.imagen}" class="card-img-top" th:alt="${producto.nombre}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${producto.nombre}"></h5>
                     <p class="card-text" th:text="${producto.descripcion}"></p>
@@ -25,6 +25,7 @@
                     <a th:href="'/detalle/' + ${producto.id}" class="btn btn-primary">Ver artículo</a>
                 </div>
             </div>
+
         </div>
     </div>
 

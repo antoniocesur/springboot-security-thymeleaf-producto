@@ -19,4 +19,6 @@ public class Producto {
     private String descripcion;
 
     private double precio;
+    @Column(columnDefinition = "TEXT")
+    private String imagen;
 }

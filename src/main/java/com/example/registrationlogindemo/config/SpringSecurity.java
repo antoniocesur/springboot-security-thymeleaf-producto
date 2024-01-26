@@ -32,8 +32,12 @@ public class SpringSecurity {
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/detalle/**").permitAll()
+                                .requestMatchers("/files/**").permitAll()
                                 .requestMatchers("/users").hasRole("ADMIN")
                                 .requestMatchers("/productos/**").authenticated()
+                                .requestMatchers(("/carrito/altas/**")).authenticated()
+                                .requestMatchers("/carrito").authenticated()
+                                .requestMatchers("/carrito/eliminar/**").authenticated()
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
