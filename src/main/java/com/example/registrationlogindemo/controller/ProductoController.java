@@ -1,5 +1,7 @@
 package com.example.registrationlogindemo.controller;
 
+import com.example.registrationlogindemo.dto.CompraDto;
+import com.example.registrationlogindemo.dto.LineaCompraDto;
 import com.example.registrationlogindemo.dto.UserMapper;
 import com.example.registrationlogindemo.entity.Compra;
 import com.example.registrationlogindemo.entity.LineaCompra;
@@ -22,6 +24,8 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -41,10 +45,10 @@ public class ProductoController {
     @Autowired
     public UserServiceImpl userService;
 
-    public ArrayList<Long> carrito;
+    public Map<User, CompraDto> carrito;
 
     public ProductoController(){
-        carrito=new ArrayList<>();
+        carrito=new HashMap<>();
     }
 
     @GetMapping("/")
@@ -105,24 +109,44 @@ public class ProductoController {
     }
 
     @GetMapping("/carrito/altas/{id}")
-    public String altasCarrito(@PathVariable("id") long id, HttpSession sesion){
-        carrito.add(id);
+    public String altasCarrito(@PathVariable("id") long id, Authentication authentication){
+        User usuarioActivo = userService.findByEmail(authentication.getName());
+
+        //Si el usuario activo aún no tiene un carrito, lo creo
+        if(carrito.get(usuarioActivo) == null){
+            //Creo la compraDto para almacenar sus compras
+            CompraDto compraDto=new CompraDto();
+            compraDto.setFecha(LocalDate.now());
+            compraDto.setComprador(usuarioActivo);
+            compraDto.setLineaCompraDtos(new ArrayList<>());
+            carrito.put(usuarioActivo, compraDto);
+        }
+        //Si el carrito de este usuario ya existe, simplemente añado el producto
+        //Añado a la compra, el producto cuyo id me han pasado (TODO: después debería añadir otra variable con la cantidad y comprobar si ya está en la lista)
+        LineaCompraDto lineaCompraDto=new LineaCompraDto();
+        lineaCompraDto.setProducto(productoService.findById(id));
+        lineaCompraDto.setCantidad(1);
+
+        //Le pongo el precio actual del producto, pero sin "enlazar" para que si cambia el precio del producto, no se cambie en la venta
+        lineaCompraDto.setPrecio(lineaCompraDto.getProducto().getPrecio());
+
+        //Una vez que ya tiene todos los datos, añado la línea de comprar
+        carrito.get(usuarioActivo).getLineaCompraDtos().add(lineaCompraDto);
+
         return "redirect:/carrito";
     }
 
     @GetMapping("/carrito")
-    public String verCarrito(Model model){
-        ArrayList<Producto> listaProductos=new ArrayList<>();
-        for(long id:carrito){
-            listaProductos.add(productoService.findById(id));
-        }
-        model.addAttribute("listaProductos", listaProductos);
+    public String verCarrito(Model model, Authentication authentication){
+        User usuarioActivo = userService.findByEmail(authentication.getName());
+        model.addAttribute("listaProductos", carrito.get(usuarioActivo).getLineaCompraDtos());
         return "carrito";
     }
 
     @GetMapping("/carrito/eliminar/{id}")
     public String eliminarCarrito(@PathVariable("id") long id){
         carrito.remove(id);
+        carrito.remove()
         return "redirect:/carrito";
     }
 
