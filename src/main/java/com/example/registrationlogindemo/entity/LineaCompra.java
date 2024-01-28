@@ -1,9 +1,14 @@
 package com.example.registrationlogindemo.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class LineaCompra {
     @Id
