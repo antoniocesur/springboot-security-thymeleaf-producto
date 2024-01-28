@@ -8,13 +8,16 @@
 <body>
 <div class="container">
   <h1>Carrito</h1>
-  <div class="row" th:each="producto:${listaProductos}">
-    <div class="col col-1" th:text="${producto.id}"></div>
-    <div class="col col-2" th:text="${producto.nombre}"></div>
-    <div class="col col-4" th:text="${producto.descripcion}"></div>
-    <div class="col col-1" th:text="${producto.precio}"></div>
-    <div class="col col-1"><a th:href="'/carrito/eliminar/' + ${producto.id}">Eliminar</a></div>
+  <div class="row" th:each="lineaCompra:${listaLineasCompra}">
+    <div class="col col-1" th:text="${lineaCompra.producto.id}"></div>
+    <div class="col col-2" th:text="${lineaCompra.producto.nombre}"></div>
+    <div class="col col-4" th:text="${lineaCompra.producto.descripcion}"></div>
+    <div class="col col-1" th:text="${lineaCompra.precio}"></div>
+    <div class="col col-1" th:text="${lineaCompra.cantidad}"></div>
+    <div class="col col-1"><a th:href="'/carrito/eliminar/' + ${lineaCompra.id}">Eliminar</a></div>
   </div>
+
+  <a href="/" class="btn btn-primary">Inicio</a>
 </div>
 
 

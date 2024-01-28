@@ -3,12 +3,12 @@ package com.example.registrationlogindemo.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@Builder
 @Entity
 public class Compra {
     @Id
@@ -18,4 +18,7 @@ public class Compra {
     private User comprador;
     private LocalDate fecha;
 
+    public Compra(){
+
+    }
 }
